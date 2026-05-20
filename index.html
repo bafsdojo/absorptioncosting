@@ -41,7 +41,7 @@
     .option { display: block; margin: 10px 0; padding: 12px; background: #f8f9fa; border: 2px solid #ddd; border-radius: 10px; cursor: pointer; }
     .option:hover { background: #e3f2fd; }
     .explanation { display: none; background: #e3f2fd; padding: 12px; border-radius: 12px; border-left: 5px solid #2196f3; margin: 12px 0; font-size: 0.98rem; }
-    .feedback { margin-top: 12px; font-size: 1.05rem; min-height: 100px; text-align: center; }
+    .feedback { margin-top: 12px; font-size: 1.05rem; min-height: 110px; text-align: center; }
     .success { color: #4caf50; font-weight: 600; }
     .error { color: #f44336; }
     button {
@@ -53,43 +53,245 @@
   </style>
 </head>
 <body>
-  <!-- (All HTML content is the same as before - omitted for brevity) -->
-  <!-- Full HTML sections 1 to 11 are identical to the previous complete version -->
+  <div class="header">🍭 Road to the Candy House 🍭</div>
+  <div class="intro" id="intro">
+    <h1>Absorption Costing</h1>
+    <p style="font-size:1.25rem; margin:12px 0; font-weight:600;">Also known as Full Costing</p>
+    <p style="font-size:1.1rem; margin:12px 0;">All manufacturing costs (including fixed overheads) are absorbed into product cost.</p>
+    <div class="progress-list" id="progressList">
+      <div class="progress-item" id="p1" onclick="goToStep(1)">1. Predetermined OAR</div>
+      <div class="progress-item" id="p2" onclick="goToStep(2)">2. Overheads Absorbed</div>
+      <div class="progress-item" id="p3" onclick="goToStep(3)">3. Over/Under Absorbed</div>
+      <div class="progress-item" id="p4" onclick="goToStep(4)">4. Practice: Predetermined OAR</div>
+      <div class="progress-item" id="p5" onclick="goToStep(5)">5. Sales</div>
+      <div class="progress-item" id="p6" onclick="goToStep(6)">6. Direct Materials</div>
+      <div class="progress-item" id="p7" onclick="goToStep(7)">7. Direct Labour</div>
+      <div class="progress-item" id="p8" onclick="goToStep(8)">8. Fixed OH Absorbed</div>
+      <div class="progress-item" id="p9" onclick="goToStep(9)">9. Unsold Inventory</div>
+      <div class="progress-item" id="p10" onclick="goToStep(10)">10. Adjustment</div>
+      <div class="progress-item" id="p11" onclick="goToStep(11)">11. Gross Profit</div>
+    </div>
+    <button onclick="goToStep(1)" style="font-size:1.2rem; padding:14px 35px;">Start Your Journey →</button>
+  </div>
+
+  <div id="journey" class="road-container">
+
+    <!-- Step 1 -->
+    <div class="section" id="section1">
+      <h2 style="color:#ff6b6b; text-align:center; font-size:1.35rem;">Step 1: Predetermined OAR</h2>
+      <div class="formula">
+        Predetermined OAR = <span class="drop-zone" id="numerator" ondrop="drop(event)" ondragover="allowDrop(event)"></span> total overheads
+        <br><br>÷ <span class="drop-zone" id="denominator" ondrop="drop(event)" ondragover="allowDrop(event)"></span> quantity of absorption base
+      </div>
+      <div style="text-align:center; margin:12px 0;">
+        <span class="draggable" draggable="true" ondragstart="drag(event)" id="b1">Budgeted</span>
+        <span class="draggable" draggable="true" ondragstart="drag(event)" id="a1">Actual</span>
+      </div>
+      <div class="feedback" id="feedback1"></div>
+      <div style="text-align:center;">
+        <button onclick="checkStep1()">Check Step 1</button>
+        <button onclick="resetStep1()" class="reset-btn">Reset</button>
+        <button id="nextBtn1" class="next-btn" onclick="goToFront()" style="display:none;">Next → Progress</button>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="section" id="section2">
+      <h2 style="color:#ff6b6b; text-align:center; font-size:1.35rem;">Step 2: Overheads Absorbed</h2>
+      <div class="formula">
+        Overheads Absorbed = <br>Predetermined OAR × <span class="drop-zone" id="dropzone2" ondrop="drop(event)" ondragover="allowDrop(event)"></span> quantity of absorption base
+      </div>
+      <div style="text-align:center; margin:12px 0;">
+        <span class="draggable" draggable="true" ondragstart="drag(event)" id="b2">Budgeted</span>
+        <span class="draggable" draggable="true" ondragstart="drag(event)" id="a2">Actual</span>
+      </div>
+      <div class="explanation" id="explanation2"></div>
+      <div class="feedback" id="feedback2"></div>
+      <div style="text-align:center;">
+        <button onclick="checkStep2()">Check Step 2</button>
+        <button onclick="resetStep2()" class="reset-btn">Reset</button>
+        <button id="nextBtn2" class="next-btn" onclick="goToFront()" style="display:none;">Next → Progress</button>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="section" id="section3">
+      <h2 style="color:#ff6b6b; text-align:center; font-size:1.35rem;">Step 3: Over-absorbed vs Under-absorbed</h2>
+      <div class="formula" style="line-height:2.4;">
+        If <strong>Absorbed Overheads &gt; Actual Overheads</strong> → 
+        <span class="drop-zone" id="drop3" ondrop="drop(event)" ondragover="allowDrop(event)"></span>-absorbed overheads
+      </div>
+      <div style="text-align:center; margin:15px 0;">
+        <span class="draggable" draggable="true" ondragstart="drag(event)" id="over">Over</span>
+        <span class="draggable" draggable="true" ondragstart="drag(event)" id="under">Under</span>
+      </div>
+      <div class="feedback" id="feedback3"></div>
+      <div style="text-align:center;">
+        <button onclick="checkStep3()">Check Step 3</button>
+        <button onclick="resetStep3()" class="reset-btn">Reset</button>
+        <button id="nextBtn3" class="next-btn" onclick="goToFront()" style="display:none;">Next → Progress</button>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="section" id="section4">
+      <h2 style="color:#ff6b6b; text-align:center; font-size:1.35rem;">Step 4: Practice — Predetermined OAR</h2>
+      <p style="text-align:center; font-size:1.1rem; margin:12px 0;">Turn to P.3, what is your answer for (b)?</p>
+      <div style="text-align:center; margin:20px 0;">
+        <input type="number" id="answer4" placeholder="Enter your answer" style="width:200px; padding:10px;">
+      </div>
+      <div class="feedback" id="feedback4"></div>
+      <div style="text-align:center;">
+        <button onclick="checkStep4()">Check Answer</button>
+        <button onclick="resetStep4()" class="reset-btn">Reset</button>
+        <button id="nextBtn4" class="next-btn" onclick="goToFront()" style="display:none;">Next → Progress</button>
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="section" id="section5">
+      <h2 style="color:#ff6b6b; text-align:center; font-size:1.35rem;">Step 5: Sales</h2>
+      <p style="text-align:center; font-size:1.12rem; margin:15px 0;">Turn to P.4. What is the amount of sales?</p>
+      <div style="max-width: 400px; margin: 20px auto;">
+        <label class="option" onclick="selectOption(this,5)"><input type="radio" name="q5" value="A"> A. $18,000</label>
+        <label class="option" onclick="selectOption(this,5)"><input type="radio" name="q5" value="B"> B. $400</label>
+        <label class="option" onclick="selectOption(this,5)"><input type="radio" name="q5" value="C"> C. 18,000 x $400 = $7,200,000</label>
+        <label class="option" onclick="selectOption(this,5)"><input type="radio" name="q5" value="D"> D. 20,000 x $400 = $8,000,000</label>
+      </div>
+      <div class="feedback" id="feedback5"></div>
+      <div style="text-align:center;">
+        <button onclick="checkStep5()">Check Answer</button>
+        <button onclick="resetStep5()" class="reset-btn">Reset</button>
+        <button id="nextBtn5" class="next-btn" onclick="goToFront()" style="display:none;">Next → Progress</button>
+      </div>
+    </div>
+
+    <!-- Step 6 -->
+    <div class="section" id="section6">
+      <h2 style="color:#ff6b6b; text-align:center; font-size:1.35rem;">Step 6: Direct Materials Cost</h2>
+      <p style="text-align:center; font-size:1.12rem; margin:15px 0;">What is the direct materials cost?</p>
+      <div style="max-width: 400px; margin: 20px auto;">
+        <label class="option" onclick="selectOption(this,6)"><input type="radio" name="q6" value="A"> A. $10</label>
+        <label class="option" onclick="selectOption(this,6)"><input type="radio" name="q6" value="B"> B. 18,000 x $10 = $180,000</label>
+        <label class="option" onclick="selectOption(this,6)"><input type="radio" name="q6" value="C"> C. 20,000 x $10 = $200,000</label>
+      </div>
+      <div class="feedback" id="feedback6"></div>
+      <div style="text-align:center;">
+        <button onclick="checkStep6()">Check Answer</button>
+        <button onclick="resetStep6()" class="reset-btn">Reset</button>
+        <button id="nextBtn6" class="next-btn" onclick="goToFront()" style="display:none;">Next → Progress</button>
+      </div>
+    </div>
+
+    <!-- Step 7 -->
+    <div class="section" id="section7">
+      <h2 style="color:#ff6b6b; text-align:center; font-size:1.35rem;">Step 7: Direct Labour Cost</h2>
+      <p style="text-align:center; font-size:1.12rem; margin:15px 0;">What is the direct labour cost?</p>
+      <div style="max-width: 400px; margin: 20px auto;">
+        <label class="option" onclick="selectOption(this,7)"><input type="radio" name="q7" value="A"> A. $20</label>
+        <label class="option" onclick="selectOption(this,7)"><input type="radio" name="q7" value="B"> B. 20,000 x $20 = $400,000</label>
+        <label class="option" onclick="selectOption(this,7)"><input type="radio" name="q7" value="C"> C. 90,000 x $20 = $1,800,000</label>
+      </div>
+      <div class="feedback" id="feedback7"></div>
+      <div style="text-align:center;">
+        <button onclick="checkStep7()">Check Answer</button>
+        <button onclick="resetStep7()" class="reset-btn">Reset</button>
+        <button id="nextBtn7" class="next-btn" onclick="goToFront()" style="display:none;">Next → Progress</button>
+      </div>
+    </div>
+
+    <!-- Step 8 -->
+    <div class="section" id="section8">
+      <h2 style="color:#ff6b6b; text-align:center; font-size:1.35rem;">Step 8: Fixed Production Overhead Absorbed</h2>
+      <p style="text-align:center; font-size:1.12rem; margin:15px 0;">Fixed production overhead absorbed is:</p>
+      <div style="max-width: 400px; margin: 20px auto;">
+        <label class="option" onclick="selectOption(this,8)"><input type="radio" name="q8" value="A"> A. $40/DLH × 90,000 DLH = $3,600,000</label>
+        <label class="option" onclick="selectOption(this,8)"><input type="radio" name="q8" value="B"> B. $40/DLH × 100,000 DLH = $4,000,000</label>
+        <label class="option" onclick="selectOption(this,8)"><input type="radio" name="q8" value="C"> C. 3,800,000</label>
+        <label class="option" onclick="selectOption(this,8)"><input type="radio" name="q8" value="D"> D. $40/DLH × 20,000 MH = $800,000</label>
+      </div>
+      <div class="feedback" id="feedback8"></div>
+      <div style="text-align:center;">
+        <button onclick="checkStep8()">Check Answer</button>
+        <button onclick="resetStep8()" class="reset-btn">Reset</button>
+        <button id="nextBtn8" class="next-btn" onclick="goToFront()" style="display:none;">Next → Progress</button>
+      </div>
+    </div>
+
+    <!-- Step 9 -->
+    <div class="section" id="section9">
+      <h2 style="color:#ff6b6b; text-align:center; font-size:1.35rem;">Step 9: Unsold Inventory</h2>
+      <p style="text-align:center; font-size:1.12rem; margin:15px 0;">What is the unit of unsold inventory?</p>
+      <div style="max-width: 340px; margin: 20px auto;">
+        <label class="option" onclick="selectOption(this,9)"><input type="radio" name="q9" value="A"> A. 2,000 units</label>
+        <label class="option" onclick="selectOption(this,9)"><input type="radio" name="q9" value="B"> B. 18,000 units</label>
+        <label class="option" onclick="selectOption(this,9)"><input type="radio" name="q9" value="C"> C. 20,000 units</label>
+      </div>
+      <div class="feedback" id="feedback9"></div>
+      <div style="text-align:center;">
+        <button onclick="checkStep9()">Check Answer</button>
+        <button onclick="resetStep9()" class="reset-btn">Reset</button>
+        <button id="nextBtn9" class="next-btn" onclick="goToFront()" style="display:none;">Next → Progress</button>
+      </div>
+    </div>
+
+    <!-- Step 10 -->
+    <div class="section" id="section10">
+      <h2 style="color:#ff6b6b; text-align:center; font-size:1.35rem;">Step 10: Adjustment</h2>
+      <p style="text-align:center; font-size:1.12rem; margin:15px 0;">Choose the correct adjustment:</p>
+      <div style="max-width: 340px; margin: 20px auto;">
+        <label class="option" onclick="selectOption(this,10)"><input type="radio" name="q10" value="Add"> Add: Under-absorbed</label>
+        <label class="option" onclick="selectOption(this,10)"><input type="radio" name="q10" value="Less"> Less: Over-absorbed</label>
+      </div>
+      <div class="feedback" id="feedback10"></div>
+      <div style="text-align:center;">
+        <button onclick="checkStep10()">Check Answer</button>
+        <button onclick="resetStep10()" class="reset-btn">Reset</button>
+        <button id="nextBtn10" class="next-btn" onclick="goToFront()" style="display:none;">Next → Progress</button>
+      </div>
+    </div>
+
+    <!-- Step 11 -->
+    <div class="section" id="section11">
+      <h2 style="color:#ff6b6b; text-align:center; font-size:1.35rem;">Step 11: Gross Profit</h2>
+      <p style="text-align:center; font-size:1.12rem; margin:15px 0;">What is the amount of Gross Profit?</p>
+      <div style="text-align:center; margin:20px 0;">
+        <input type="text" id="answer11" placeholder="e.g. 1960000" style="width:220px; padding:10px; text-align:center;">
+      </div>
+      <div class="feedback" id="feedback11"></div>
+      <div style="text-align:center;">
+        <button onclick="checkStep11()">Check Answer</button>
+        <button onclick="resetStep11()" class="reset-btn">Reset</button>
+        <button id="nextBtn11" class="next-btn" onclick="goToFront()" style="display:none;">Finish Journey 🎉</button>
+      </div>
+    </div>
+  </div>
 
   <script>
-    function allowDrop(ev) { 
-      ev.preventDefault(); 
-    }
+    function allowDrop(ev) { ev.preventDefault(); }
 
     function drag(ev) { 
       ev.dataTransfer.setData("text", ev.target.id); 
     }
 
-    // ==================== FIXED DROP FUNCTION ====================
+    // FIXED DROP FUNCTION - This resolves the "Cannot read properties of null (reading 'cloneNode')" error
     function drop(ev) {
       ev.preventDefault();
       const data = ev.dataTransfer.getData("text");
-      
-      if (!data) return; // Safety: no data
+      if (!data) return;
 
       const original = document.getElementById(data);
-      if (!original) {
-        console.warn("Drag item not found:", data);
-        return;
-      }
+      if (!original) return;
 
       const clone = original.cloneNode(true);
-      clone.id = "cloned_" + Date.now();   // Unique ID
+      clone.id = "cloned_" + Date.now();
       clone.draggable = true;
       clone.ondragstart = drag;
 
-      // Clear previous content if needed (prevents multiple drops)
-      ev.target.innerHTML = "";
+      ev.target.innerHTML = "";   // Clear any previous item
       ev.target.appendChild(clone);
-      ev.target.classList.add("filled");
     }
 
-    // Rest of your script (selected, functions, checkStep1, checkStep2, etc.)
     let selected = {5:"",6:"",7:"",8:"",9:"",10:""};
 
     function selectOption(el, q) {
@@ -121,16 +323,13 @@
           candy.style.fontSize = "2rem";
           candy.style.transition = "all 3.5s linear";
           document.body.appendChild(candy);
-          setTimeout(() => { 
-            candy.style.top = "110vh"; 
-            candy.style.transform = `rotate(${Math.random()*800}deg)`; 
-          }, 100);
+          setTimeout(() => { candy.style.top = "110vh"; candy.style.transform = `rotate(${Math.random()*800}deg)`; }, 100);
           setTimeout(() => candy.remove(), 4000);
         }, i * 50);
       }
     }
 
-    // Check functions (same as previous version with your explanations)
+    // Check Functions with your explanations
     function checkStep1() {
       const num = document.getElementById("numerator").textContent.trim();
       const den = document.getElementById("denominator").textContent.trim();
@@ -158,9 +357,125 @@
       }
     }
 
-    // ... (Include all other checkStep3() to checkStep11() and reset functions from previous complete code) ...
+    function checkStep3() {
+      const zone = document.getElementById("drop3").textContent.trim();
+      const fb = document.getElementById("feedback3");
+      if (zone.includes("Over")) {
+        fb.innerHTML = `<span class="success">🎉 Correct! It's Over-absorbed!</span>`;
+        celebrate(); markCompleted(3);
+      } else {
+        fb.innerHTML = `<span class="error">❌ When Absorbed > Actual, it should be Over-absorbed.</span>`;
+      }
+    }
 
-    // Reset functions (updated for step 2)
+    function checkStep4() {
+      const input = document.getElementById("answer4").value.trim();
+      const fb = document.getElementById("feedback4");
+      if (input === "40") {
+        fb.innerHTML = `<span class="success">🎉 Correct! Well done!</span>`;
+        celebrate(); markCompleted(4);
+      } else if (input === "") {
+        fb.innerHTML = `<span class="error">❌ Please enter an answer.</span>`;
+      } else {
+        fb.innerHTML = `<span class="error">❌ Not correct. Try again.</span>`;
+      }
+    }
+
+    function checkStep5() {
+      const fb = document.getElementById("feedback5");
+      if (selected[5] === "C") {
+        fb.innerHTML = `<span class="success">🎉 Correct!<br><strong>18,000 × $400 = $7,200,000</strong></span>`;
+        celebrate(); markCompleted(5);
+      } else if (!selected[5]) fb.innerHTML = `<span class="error">❌ Please select an option.</span>`;
+      else {
+        let msg = `<span class="error">❌ Not correct.<br><strong>Why this option is wrong:</strong><br>`;
+        if (selected[5] === "A") msg += `A. 18,000 is no. of units sold. It has to be multiplied by unit selling price to arrive at total sales.`;
+        else if (selected[5] === "B") msg += `B. $400 is selling price for 1 unit. It has to be multiplied by the no. of units sold to arrive at total sales.`;
+        else if (selected[5] === "D") msg += `D. 20,000 is no. of units produced. No. of units sold should be used to multiply by unit selling price.`;
+        fb.innerHTML = msg + `</span>`;
+      }
+    }
+
+    function checkStep6() {
+      const fb = document.getElementById("feedback6");
+      if (selected[6] === "C") {
+        fb.innerHTML = `<span class="success">🎉 Correct!<br><strong>20,000 × $10 = $200,000</strong></span>`;
+        celebrate(); markCompleted(6);
+      } else if (!selected[6]) fb.innerHTML = `<span class="error">❌ Please select an option.</span>`;
+      else {
+        let msg = `<span class="error">❌ Not correct.<br><strong>Why this option is wrong:</strong><br>`;
+        if (selected[6] === "A") msg += `A. $10 is cost for 1 unit produced. Creative Ltd produced > 1 unit this year.`;
+        else if (selected[6] === "B") msg += `B. 18,000 is no of units sold. The direct materials costs for units unsold will be deducted altogether in closing inventory, so there is no need to deduce it here.`;
+        fb.innerHTML = msg + `</span>`;
+      }
+    }
+
+    function checkStep7() {
+      const fb = document.getElementById("feedback7");
+      if (selected[7] === "C") {
+        fb.innerHTML = `<span class="success">🎉 Correct!<br><strong>90,000 × $20 = $1,800,000</strong></span>`;
+        celebrate(); markCompleted(7);
+      } else if (!selected[7]) fb.innerHTML = `<span class="error">❌ Please select an option.</span>`;
+      else {
+        let msg = `<span class="error">❌ Not correct.<br><strong>Why this option is wrong:</strong><br>`;
+        if (selected[7] === "A") msg += `A. $20 is cost for 1 direct labour hour. Creative Ltd used > 1 direct labour hour this year.`;
+        else if (selected[7] === "B") msg += `B. 20,000 is no. of machine hours. 20,000 MH x $20 / DLH = $400,000 MH / DLH. The unit does not cancel out.`;
+        fb.innerHTML = msg + `</span>`;
+      }
+    }
+
+    function checkStep8() {
+      const fb = document.getElementById("feedback8");
+      if (selected[8] === "A") {
+        fb.innerHTML = `<span class="success">🎉 Correct!<br><strong>$40/DLH × 90,000 DLH = $3,600,000</strong></span>`;
+        celebrate(); markCompleted(8);
+      } else if (!selected[8]) fb.innerHTML = `<span class="error">❌ Please select an option.</span>`;
+      else {
+        let msg = `<span class="error">❌ Not correct.<br><strong>Why this option is wrong:</strong><br>`;
+        if (selected[8] === "B") msg += `B. 100,000 is budgeted direct labour hours. The actual direct labour hours should be a factor here.`;
+        else if (selected[8] === "C") msg += `C. $3,800,000 is actual fixed production overhead, not absorbed.`;
+        else if (selected[8] === "D") msg += `D. The units do not cancel out each other. It will equal $800,000 MH / DLH.`;
+        fb.innerHTML = msg + `</span>`;
+      }
+    }
+
+    function checkStep9() {
+      const fb = document.getElementById("feedback9");
+      if (selected[9] === "A") {
+        fb.innerHTML = `<span class="success">🎉 Correct!<br><strong>2,000 units unsold</strong></span>`;
+        celebrate(); markCompleted(9);
+      } else if (!selected[9]) fb.innerHTML = `<span class="error">❌ Please select an option.</span>`;
+      else {
+        let msg = `<span class="error">❌ Not correct.<br><strong>Why this option is wrong:</strong><br>`;
+        if (selected[9] === "B") msg += `B. 18,000 is no. of units sold, not unsold.`;
+        else if (selected[9] === "C") msg += `C. 20,000 is no. of units produced. Since some units have been sold this year, it cannot equal to the units unsold.`;
+        fb.innerHTML = msg + `</span>`;
+      }
+    }
+
+    function checkStep10() {
+      const fb = document.getElementById("feedback10");
+      if (selected[10] === "Add") {
+        fb.innerHTML = `<span class="success">🎉 Correct!<br><strong>Add: Under-absorbed</strong></span>`;
+        celebrate(); markCompleted(10);
+      } else if (!selected[10]) fb.innerHTML = `<span class="error">❌ Please select an option.</span>`;
+      else fb.innerHTML = `<span class="error">❌ Wrong. Add Under-absorbed / Less Over-absorbed.</span>`;
+    }
+
+    function checkStep11() {
+      let input = document.getElementById("answer11").value.trim().replace(/[$, ]/g, '');
+      const fb = document.getElementById("feedback11");
+      if (input === "1960000") {
+        fb.innerHTML = `<span class="success">🎉 Correct! Gross Profit = $1,960,000</span>`;
+        celebrate(); markCompleted(11);
+      } else if (input === "") {
+        fb.innerHTML = `<span class="error">❌ Please enter the amount.</span>`;
+      } else {
+        fb.innerHTML = `<span class="error">❌ Not correct. Try again.</span>`;
+      }
+    }
+
+    // Reset Functions
     function resetStep1() { 
       document.getElementById("feedback1").innerHTML = ""; 
       document.getElementById("numerator").innerHTML = ""; 
@@ -171,6 +486,15 @@
       document.getElementById("dropzone2").innerHTML = ""; 
       document.getElementById("explanation2").style.display = "none"; 
     }
+    function resetStep3() { document.getElementById("feedback3").innerHTML = ""; document.getElementById("drop3").innerHTML = ""; }
+    function resetStep4() { document.getElementById("answer4").value = ""; document.getElementById("feedback4").innerHTML = ""; }
+    function resetStep5() { document.getElementById("feedback5").innerHTML = ""; selected[5] = ""; document.querySelectorAll('input[name="q5"]').forEach(r => r.parentElement.style.borderColor = "#ddd"); }
+    function resetStep6() { document.getElementById("feedback6").innerHTML = ""; selected[6] = ""; document.querySelectorAll('input[name="q6"]').forEach(r => r.parentElement.style.borderColor = "#ddd"); }
+    function resetStep7() { document.getElementById("feedback7").innerHTML = ""; selected[7] = ""; document.querySelectorAll('input[name="q7"]').forEach(r => r.parentElement.style.borderColor = "#ddd"); }
+    function resetStep8() { document.getElementById("feedback8").innerHTML = ""; selected[8] = ""; document.querySelectorAll('input[name="q8"]').forEach(r => r.parentElement.style.borderColor = "#ddd"); }
+    function resetStep9() { document.getElementById("feedback9").innerHTML = ""; selected[9] = ""; document.querySelectorAll('input[name="q9"]').forEach(r => r.parentElement.style.borderColor = "#ddd"); }
+    function resetStep10() { document.getElementById("feedback10").innerHTML = ""; selected[10] = ""; document.querySelectorAll('input[name="q10"]').forEach(r => r.parentElement.style.borderColor = "#ddd"); }
+    function resetStep11() { document.getElementById("answer11").value = ""; document.getElementById("feedback11").innerHTML = ""; }
   </script>
 </body>
 </html>
